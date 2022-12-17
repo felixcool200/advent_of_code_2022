@@ -1,15 +1,10 @@
 use std::fs;
 use std::str::FromStr;
 
-fn main() {
-    let file_path = "input.txt";
-    let contents = fs::read_to_string(file_path)
-        .expect("Should have been able to read the file");
-    let list_of_str = contents.split("\n");
-
+fn part_b(list_of_str:std::str::Split<&str>) -> [usize;3]{
     //Part B
-    let mut current:u64 = 0;
-    let mut max_array: [u64;3] = [0;3];
+    let mut current:usize = 0;
+    let mut max_array: [usize;3] = [0;3];
     for str_num in list_of_str{
         if str_num == ""{
             for i in 0..3{
@@ -21,29 +16,24 @@ fn main() {
             }
             current = 0;
         }else{
-            current += u64::from_str(str_num).unwrap_or(0);
+            current += usize::from_str(str_num).unwrap_or(0);
         }
     }
+    //let total:usize = max_array.iter().sum();
+    return max_array
+}
 
-    let total:u64 = max_array.iter().sum();
-    println!("Part A:{}, Part B:{}",max_array[0],total);
-
-    /*
+fn part_a(list_of_str:std::str::Split<&str>) -> usize{
     //Part A
-    let mut max_find:u64 = 0;
-    current = 0;
-    
-    for str_num in list_of_str{
-        if str_num == ""{
-            if max_find < current{
-                max_find = current;
-            }
-            current = 0;
-        }else{
-            current += u64::from_str(str_num).unwrap_or(0);
-        }
-    }
-    let list_of_str = contents.split("\n");
-    println!("Max carry:{}",max_find);
-    */
+    return part_b(list_of_str)[0];
+}
+
+fn main() {
+    let file_path:&str = "input.txt";
+    let contents:String = fs::read_to_string(file_path)
+        .expect("Should have been able to read the file");
+    let list_of_str:std::str::Split<&str> = contents.split("\n");
+
+    println!("Part A:{}",part_a(list_of_str.clone()));
+    println!("Part B:{}",part_b(list_of_str.clone()).iter().sum::<usize>());
 }
