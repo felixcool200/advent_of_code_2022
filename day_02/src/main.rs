@@ -1,9 +1,8 @@
 use std::fs;
 use std::collections::HashMap;
 
-fn input_to_symbol_part_a(inp_1:&str, inp_2:&str) -> u64 {
+fn input_to_symbol_part_a(inp_1:&str, inp_2:&str) -> usize {
 
-    let mut score:u64 = 0;
     let symbol_same = HashMap::from([
         ("X","A"),
         ("Y","B"),
@@ -22,22 +21,22 @@ fn input_to_symbol_part_a(inp_1:&str, inp_2:&str) -> u64 {
         ("C", "X"), // Rock beats scissor
     ]);
     //symbol score
-    println!("{},{}",inp_1,inp_2);
-    score += symbol_score[inp_2];
+    let score = symbol_score[inp_2];
 
     //A draw
     if inp_1 == symbol_same[inp_2]{
-        score += 3;
-        return score;
+        return score + 3;
     }
+    
     //A win
     if winner_map[inp_1] == inp_2{
-        score += 6;
+        return score + 6;
     }
+    // A loss
     return score;
 }
 
-fn input_to_symbol_part_b(inp_1:&str, inp_2:&str) -> u64 {
+fn input_to_symbol_part_b(inp_1:&str, inp_2:&str) -> usize {
     //The three HashMaps are offset by a integer thus a list with offset could be used
     let win_map = HashMap::from([
         ("A","Y"),
@@ -75,17 +74,20 @@ fn main() {
     let list_of_str = contents.split("\n");
 
     //Part A
-    let mut score:u64 = 0;  
+    let mut score_part_a:usize = 0;  
+    let mut score_part_b:usize = 0;  
     for str_num in list_of_str{
         let input_vec:Vec<&str> = str_num.split(" ").collect();
         if str_num == ""{
             continue;
         }
-        score += input_to_symbol_part_b(&input_vec[0],&input_vec[1]);
-        println!("{}",score);
+        score_part_a += input_to_symbol_part_a(&input_vec[0],&input_vec[1]);
+        score_part_b += input_to_symbol_part_b(&input_vec[0],&input_vec[1]);
+        //println!("{}",score);
     }
     //let list_of_str = contents.split("\n");
-    println!("Score:{}",score);
-    
+    println!("Part A:{}",score_part_a);
+    println!("Part B:{}",score_part_b);
+
 }
 
